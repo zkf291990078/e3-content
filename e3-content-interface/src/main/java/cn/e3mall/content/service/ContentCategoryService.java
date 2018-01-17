@@ -13,6 +13,6 @@ public interface ContentCategoryService {
 
 	public E3Result updateContentCategory(Long id, String name);
 
-	public E3Result deleteContentCategory(Long parentId, Long id);
+	public E3Result deleteContentCategory(Long id);
 
 }

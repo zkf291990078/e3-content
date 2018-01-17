@@ -81,7 +81,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 	}
 
 	@Override
-	public E3Result deleteContentCategory(Long parentId, Long id) {
+	public E3Result deleteContentCategory(Long id) {
 		// TODO Auto-generated method stub
 		TbContentCategory currentCategory=contentCategoryMapper.selectByPrimaryKey(id);
 		if(currentCategory.getIsParent()){
@@ -90,10 +90,10 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 		contentCategoryMapper.deleteByPrimaryKey(id);
 		
 		TbContentCategoryExample example=new TbContentCategoryExample();
-		example.createCriteria().andParentIdEqualTo(parentId);
+		example.createCriteria().andParentIdEqualTo(currentCategory.getParentId());
 		List<TbContentCategory> childCates=  contentCategoryMapper.selectByExample(example);
 		if(childCates==null||childCates.size()==0){
-			TbContentCategory category= contentCategoryMapper.selectByPrimaryKey(parentId);
+			TbContentCategory category= contentCategoryMapper.selectByPrimaryKey(currentCategory.getParentId());
 			category.setIsParent(false);
 			contentCategoryMapper.updateByPrimaryKey(category);
 		}
